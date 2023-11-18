@@ -8,6 +8,9 @@ function App() {
   // const [operationSymbol, setOperationSymbol] = useState("")
 
   function setNumber(num) {
+    if (operandValue[operandValue.length - 1] === "." && num === ".") {
+      return;
+    }
     setOperandValue(operandValue + num);
 
     if (operandValue === "." && num === ".") {
@@ -24,18 +27,46 @@ function App() {
   }
 
   const setOperation = (operationString) => {
-    setOperandValue(operandValue + operationString);
+    if (
+      operandValue[operandValue.length - 1] === "+" ||
+      operandValue[operandValue.length - 1] === "-" ||
+      operandValue[operandValue.length - 1] === "x" ||
+      operandValue[operandValue.length - 1] === "÷"
+    ) {
+      console.log(operationString);
+      return;
+    }
 
-    // setOperationSymbol(operationString)
-    console.log("operationString", operationString);
+    if (operandValue === "0" && operationString === "-") {
+      console.log("operationString", operationString);
+      setOperandValue(operationString + operandValue);
+    } else {
+      setOperandValue(operandValue + operationString);
+    }
+
+    console.log("operandValue", operandValue[operandValue.length - 1]);
+
+    if (
+      operandValue.includes("+") ||
+      operandValue.includes("-") ||
+      operandValue.includes("x") ||
+      operandValue.includes("÷")
+    ) {
+      evaluate();
+
+      console.log("operandValue", operandValue);
+    }
   };
 
   const clearScreen = () => {
     setOperandValue("0");
   };
 
-  
   const splitOperandBySymbol = (operationSymbol) => {
+
+    if (operationSymbol === "-") {
+
+    }
     // splits left and right number by operation symbol
     const [str1, str2] = operandValue.split(operationSymbol);
 
@@ -45,7 +76,7 @@ function App() {
     if (!num2) return [];
 
     console.log("num1", num1);
-    console.log("num2", num2)
+    console.log("num2", num2);
 
     //return an array of num1 and num2
     return [num1, num2];
@@ -55,25 +86,29 @@ function App() {
     if (operandValue.includes("+")) {
       const nums = splitOperandBySymbol("+");
 
-      setOperandValue((nums[0] + nums[1]).toString());
+      let total = (nums[0] + nums[1]).toFixed(2).toString();
+      setOperandValue(total);
     }
 
     if (operandValue.includes("-")) {
       const nums = splitOperandBySymbol("-");
 
-      setOperandValue((nums[0] - nums[1]).toString());
+      let total = (nums[0] - nums[1]).toFixed(2).toString();
+      setOperandValue(total);
     }
 
     if (operandValue.includes("x")) {
       const nums = splitOperandBySymbol("x");
 
-      setOperandValue((nums[0] * nums[1]).toString());
+      let total = (nums[0] * nums[1]).toFixed(2).toString();
+      setOperandValue(total);
     }
 
     if (operandValue.includes("÷")) {
       const nums = splitOperandBySymbol("÷");
 
-      setOperandValue((nums[0] / nums[1]).toString());
+      let total = (nums[0] / nums[1]).toFixed(2).toString();
+      setOperandValue(total);
     }
   }
   return (
