@@ -8,6 +8,11 @@ function App() {
   // const [operationSymbol, setOperationSymbol] = useState("")
 
   function setNumber(num) {
+    
+    if (operandValue.includes(".") && num === ".") {
+      return;
+    }
+
     if (operandValue[operandValue.length - 1] === "." && num === ".") {
       return;
     }
